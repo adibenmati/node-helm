@@ -1,0 +1,19 @@
+{
+  "name": "node-helm",
+  "version": "1.0.0",
+  "description": "Node helm created for javascript developers that works with helm.sh package manager for Kubernetes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adibenmat/node-helm.git"
+  },
+  "author": "adibenmat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adibenmat/node-helm/issues"
+  },
+  "homepage": "https://github.com/adibenmat/node-helm#readme"
+}
