@@ -7,11 +7,11 @@ module.exports = class Executer {
         this.helmCommand = helmCommand ? helmCommand : constants.DefaultHelmCommand;
     }
 
-    callByArguments = function (args, callback) {        
+    callByArguments(args, callback) {        
         execute(args, callback);
     }
 
-    callByCommand = function (args, callback) {
+    callByCommand(args, callback) {
         var args = command.split(' ');
         args.push(constants.OutputCommand).push(this.output);
         execute(args, callback);
