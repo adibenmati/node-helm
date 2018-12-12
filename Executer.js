@@ -8,28 +8,29 @@ module.exports = class Executer {
     }
 
     callByArguments(args, callback) {        
-        execute(args, callback);
+        this.execute(args, callback);
     }
 
-    callByCommand(args, callback) {
+    callByCommand(command, callback) {
         var args = command.split(' ');
         args.push(constants.OutputCommand).push(this.output);
-        execute(args, callback);
+        this.execute(args, callback);
+    }
+
+    execute(args, callback) {
+        var helmProcess = spawn(this.helmCommand, args), stdout = '', stderr = '';
+        helmProcess.stdout.on('data', function (data) {
+            stdout += data;
+        });
+        helmProcess.stderr.on('data', function (data) {
+            stderr += data;
+        });
+        helmProcess.on('close', function (code) {
+            if (!stderr) {
+                stderr = undefined;
+            }
+            callback(stderr, stdout);
+        });
     }
 }
 
-execute = function (args, callback) {
-    var helmProcess = spawn(this.helmCommand, args), stdout = '', stderr = '';
-    helmProcess.stdout.on('data', function (data) {
-        stdout += data;
-    });
-    helmProcess.stderr.on('data', function (data) {
-        stderr += data;
-    });
-    helmProcess.on('close', function (code) {
-        if (!stderr) {
-            stderr = undefined;
-        }
-        callback(stderr, stdout);
-    });
-}
