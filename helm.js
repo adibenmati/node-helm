@@ -7,11 +7,11 @@ module.exports = class Helm {
         this.executer = new Executer(config.helmCommand, config.output);
     }
 
-    command = function(commandString, done){
+    command(commandString, done){
         this.executer.callByCommand(commandString, callbackHandler(done));
     }
     
-    install = function (options, done) {
+    install(options, done) {
         var command = ['install', options.chartName];
         if (options.releaseName) {
             command.push('--name');
@@ -29,7 +29,7 @@ module.exports = class Helm {
         this.executer.callByArguments(command, callbackHandler(done));        
     }
 
-    upgrade = function (options, done) {        
+    upgrade(options, done) {        
         var command = ['upgrade', options.releaseName];
         if (options.releaseName) {
             command.push(options.chartName);
@@ -48,7 +48,7 @@ module.exports = class Helm {
         this.executer.callByArguments(command, callbackHandler(done)); 
     }
 
-    delete = function (name, shouldPurge, done) {
+    delete(name, shouldPurge, done) {
         var command = ['delete'];
         if(shouldPurge){
             command.push('--purge');
