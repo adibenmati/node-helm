@@ -23,7 +23,7 @@ module.exports = class Helm {
         }
         if (options.values) {
             command.push('--set');       
-            command.push(helperMethods.flattenValuesToString(valuesString));
+            command.push(helperMethods.flattenValuesToString(options.values));
         }
 
         this.executer.callByArguments(command, callbackHandler(done));        
