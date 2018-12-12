@@ -54,7 +54,7 @@ module.exports = class Helm {
             command.push('--purge');
         }
         command.push(name);
-        this.executer.callByArguments([command], callbackHandler(done));         
+        this.executer.callByArguments(command, callbackHandler(done));         
     }
 }
 
