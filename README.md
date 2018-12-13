@@ -21,7 +21,7 @@ require Helm class
 ```
 const Helm = require("node-helm").Helm;
 var helm = Promise.promisifyAll(new Helm({helmCommand: helmBinary}));
-``
+```
 
 
 Install a service
