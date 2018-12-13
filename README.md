@@ -8,9 +8,7 @@ npm install node-helm
 
 Setup your helm.sh file location - for linux or windows
 ```
-let helmBinary = {
-    binary: '/usr/local/bin/helm'
-};
+let helmBinary = '/usr/local/bin/helm';
 
 if (process.platform === "win32") {
     helmBinary = 'helm';
