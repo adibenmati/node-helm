@@ -37,7 +37,7 @@ module.exports = class Helm {
     
         if (options.values) {
             command.push('--set');
-            var valuesString  = helperMethods.flattenValuesToString(valuesString);
+            var valuesString  = helperMethods.flattenValuesToString(options.values);
             valuesString = valuesString.slice(0, -1);
             command.push(valuesString);
         }
@@ -55,6 +55,17 @@ module.exports = class Helm {
         }
         command.push(name);
         this.executer.callByArguments(command, callbackHandler(done));         
+    }
+
+    list(done){
+        var command = ['list'];
+        this.executer.callByArguments(command, callbackHandler(done));           
+    }
+
+    history(releaseName, done){
+        var command = ['history'];
+        command.push(releaseName);
+        this.executer.callByArguments(command, callbackHandler(done));           
     }
 }
 
