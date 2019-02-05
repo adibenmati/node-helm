@@ -35,3 +35,20 @@ return installation = await helm.installAsync({
 });  
 ```
 
+
+Upgrade a service
+```
+    return await helm.upgradeAsync({
+        reuseValues : shouldReuseValues, //boolean value
+        chartName: "./ChartFolder",
+        releaseName: SERVICENAME,
+        values: {
+            "authKey":"20FD87EA-A679-4817-AFA4-E5CC17712456"
+        }
+    });  
+```
+
+Delete a service
+```
+return await helm.deleteAsync(serviceName);
+```
