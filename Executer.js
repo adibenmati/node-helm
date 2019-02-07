@@ -7,7 +7,8 @@ module.exports = class Executer {
         this.helmCommand = helmCommand ? helmCommand : constants.DefaultHelmCommand;
     }
 
-    callByArguments(args, callback) {        
+    callByArguments(args, callback) {  
+        args.push(constants.OutputCommand).push(this.output);      
         this.execute(args, callback);
     }
 
