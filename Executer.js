@@ -8,13 +8,15 @@ module.exports = class Executer {
     }
 
     callByArguments(args, callback) {  
-        args.push(constants.OutputCommand).push(this.output);      
+        args.push(constants.OutputCommand);
+        args.push(this.output);      
         this.execute(args, callback);
     }
 
     callByCommand(command, callback) {
         var args = command.split(' ');
-        args.push(constants.OutputCommand).push(this.output);
+        args.push(constants.OutputCommand);
+        args.push(this.output);
         this.execute(args, callback);
     }
 
