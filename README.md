@@ -22,6 +22,12 @@ var helm = Promise.promisifyAll(new Helm({helmCommand: helmBinary}));
 ```
 
 
+
+List releases
+```
+    let releases = await helm.listAsync();  
+```
+
 Install a service
 ```
 return installation = await helm.installAsync({
@@ -50,5 +56,13 @@ Upgrade a service
 
 Delete a service
 ```
-return await helm.deleteAsync(serviceName);
+var shouldPurge = true;
+return await helm.deleteAsync(serviceName,shouldPurge);
+```
+
+
+Get release's history
+```
+    let releaseName = 'service';
+    let history = await helm.historyAsync(releaseName);  
 ```
