@@ -7,16 +7,20 @@ module.exports = class Executer {
         this.helmCommand = helmCommand ? helmCommand : constants.DefaultHelmCommand;
     }
 
-    callByArguments(args, callback) {  
-        args.push(constants.OutputCommand);
-        args.push(this.output);      
+    callByArguments(args, callback, isJsonOutputSupported = false) {  
+        if(isJsonOutputSupported){
+            args.push(constants.OutputCommand);
+            args.push(this.output);
+        }        
         this.execute(args, callback);
     }
 
-    callByCommand(command, callback) {
+    callByCommand(command, callback, isJsonOutputSupported = false) {
         var args = command.split(' ');
-        args.push(constants.OutputCommand);
-        args.push(this.output);
+        if(isJsonOutputSupported){
+            args.push(constants.OutputCommand);
+            args.push(this.output);
+        }        
         this.execute(args, callback);
     }
 

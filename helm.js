@@ -59,13 +59,13 @@ module.exports = class Helm {
 
     list(done){
         var command = ['list'];
-        this.executer.callByArguments(command, callbackHandler(done));           
+        this.executer.callByArguments(command, callbackHandler(done), true);           
     }
 
     history(releaseName, done){
         var command = ['history'];
         command.push(releaseName);
-        this.executer.callByArguments(command, callbackHandler(done));           
+        this.executer.callByArguments(command, callbackHandler(done), true);           
     }
 }
 
