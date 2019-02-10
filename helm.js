@@ -18,7 +18,7 @@ module.exports = class Helm {
         if(options.chartName == null){
             throw new Error("Missing required parameter 'chartName'");
         }
-        command.push(chartName);
+        command.push(options.chartName);
         if (options.releaseName == null) {
             throw new Error("Missing required parameters 'releaseName'");
         }
