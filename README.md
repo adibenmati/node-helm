@@ -1,6 +1,7 @@
 # Introduction 
 Node helm created for javascript developers that works with helm.sh package manager for Kubernetes.
 The package is a wrapper that integrates with helm.sh process.
+
 # Build
 npm install node-helm
 
@@ -80,3 +81,10 @@ Get release's history
     }
     let history = await helm.historyAsync(options);  
 ```
+
+
+# Release Notes
+02/10/19 - 
+    1.Added native object json response
+    2.Added get release method support
+    3.All methods are now using options variable
