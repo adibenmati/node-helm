@@ -15,7 +15,7 @@ module.exports = class Helm {
     
     install(options, done) {
         var command = ['install'];
-        if(options.chartName){
+        if(options.chartName == null){
             throw new Error("Missing required parameter 'chartName'");
         }
         command.push(chartName);
