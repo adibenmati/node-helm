@@ -25,12 +25,21 @@ var helm = Promise.promisifyAll(new Helm({helmCommand: helmBinary}));
 
 List releases
 ```
-    let releases = await helm.listAsync();  
+    let options = {}; //No options available currently
+    let releases = await helm.listAsync(options);  
+```
+
+Get release
+```
+    let options = {
+        releaseName = 'service';
+    }
+    let history = await helm.getAsync(options);  
 ```
 
 Install a service
 ```
-return installation = await helm.installAsync({
+let options = {
     chartName: "CHARTNAME",
     releaseName: "SERVICENAME",        
     namespace: "dev",        
@@ -38,7 +47,8 @@ return installation = await helm.installAsync({
     values: {
         "authKey":"20FD87EA-A679-4817-AFA4-E5CC17712456"
     }
-});  
+};
+return installation = await helm.installAsync(options);  
 ```
 
 
@@ -56,13 +66,17 @@ Upgrade a service
 
 Delete a service
 ```
-var shouldPurge = true;
-return await helm.deleteAsync(serviceName,shouldPurge);
+var options = {
+    shouldPurge : true,
+    releaseName: 'service'
+}
+return await helm.deleteAsync(options);
 ```
-
 
 Get release's history
-```
-    let releaseName = 'service';
-    let history = await helm.historyAsync(releaseName);  
+```    
+    let options = {
+        releaseName = 'service';
+    }
+    let history = await helm.historyAsync(options);  
 ```
