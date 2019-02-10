@@ -1,3 +1,4 @@
+var YAML = require('yamljs');
 var helperMethods = require('./helperMethods');
 var constants = require('./constants');
 var Executer = require('./Executer');
@@ -80,12 +81,22 @@ module.exports = class Helm {
         this.executer.callByArguments(command, callbackHandler(done, true), true);           
     }
 
+    //adding options variable empty for future use
+    get(options, done){
+        var command = ['get'];
+        if(options.releaseName == null){
+            throw new Error("Missing parameter 'releaseName'");
+        }          
+        command.push(options.releaseName);
+        this.executer.callByArguments(command, callbackHandler(done, false));           
+    }
+
     history(options, done){
         var command = ['history'];
         if(options.releaseName == null){
             throw new Error("Missing parameter 'releaseName'");
         }          
-        command.push(releaseName);        
+        command.push(options.releaseName);        
         this.executer.callByArguments(command, callbackHandler(done, true), true);           
     }
 }
@@ -106,8 +117,8 @@ function callbackHandler(done, isJsonSupportedCommand) {
 function parseResponseToJson(rawData){   
     try{
         var splitedData = rawData.split(constants.HelmResponseDelimiter);
-        var jsonData = splitedData.map(function(one){
-            YAML.parse(one);        
+        var jsonData = splitedData.map(function(responseYml){
+            return YAML.parse(responseYml);        
         }); 
         return jsonData;
     }

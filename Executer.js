@@ -1,4 +1,3 @@
-var YAML = require('yamljs');
 var spawn = require('child_process').spawn;
 var constants = require('./constants');
 
