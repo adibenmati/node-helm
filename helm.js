@@ -81,7 +81,6 @@ module.exports = class Helm {
         this.executer.callByArguments(command, callbackHandler(done, true), true);           
     }
 
-    //adding options variable empty for future use
     get(options, done){
         var command = ['get'];
         if(options.releaseName == null){
@@ -98,6 +97,37 @@ module.exports = class Helm {
         }          
         command.push(options.releaseName);        
         this.executer.callByArguments(command, callbackHandler(done, true), true);           
+    }
+
+    test(options, done){
+        var command = ['test'];
+        if(options.releaseName == null){
+            throw new Error("Missing parameter 'releaseName'");
+        }          
+        command.push(options.releaseName);        
+        this.executer.callByArguments(command, callbackHandler(done, false));           
+    }
+
+    status(options, done){
+        var command = ['status'];
+        if(options.releaseName == null){
+            throw new Error("Missing parameter 'releaseName'");
+        }          
+        command.push(options.releaseName);        
+        this.executer.callByArguments(command, callbackHandler(done, true), true);           
+    }
+
+    rollback(options, done){
+        var command = ['rollback'];
+        if(options.releaseName == null){
+            throw new Error("Missing parameter 'releaseName'");
+        }          
+        if(options.revision == null){
+            throw new Error("Missing parameter 'revision'");
+        }          
+        command.push(options.releaseName);
+        command.push(options.revision);        
+        this.executer.callByArguments(command, callbackHandler(done, false));           
     }
 }
 
