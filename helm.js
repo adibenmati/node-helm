@@ -78,6 +78,10 @@ module.exports = class Helm {
     //adding options variable empty for future use
     list(options, done){
         var command = ['list'];
+        if (options.kubeContext) {
+            command.push('--kube-context');
+            command.push(options.kubeContext);
+        }
         this.executer.callByArguments(command, callbackHandler(done, true), true);           
     }
 
