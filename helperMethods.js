@@ -1,4 +1,5 @@
 const YAML = require('yamljs');
+const constants = require('./constants');
 
 const flattenValuesToString = function (values) {
     var valuesString = '';
