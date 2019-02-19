@@ -118,9 +118,12 @@ https://docs.helm.sh/helm/#helm-status
     let status = await helm.statusAsync(options);  
 ```
 
-
 # Release Notes
 ```
+    19/02/19 - 
+        1. Add basic parent options support to all commands
+        2. Use esversion 6 typing
+
     11/02/19 - 
         1. Add 3 methods: test,status,rollback
         2. Update README

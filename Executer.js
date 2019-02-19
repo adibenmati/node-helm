@@ -25,7 +25,7 @@ module.exports = class Executer {
     }
 
     execute(args, callback) {
-        var helmProcess = spawn(this.helmCommand, args), stdout = '', stderr = '';
+        let helmProcess = spawn(this.helmCommand, args), stdout = '', stderr = '';
         helmProcess.stdout.on('data', function (data) {
             stdout += data;
         });

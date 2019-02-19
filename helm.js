@@ -1,7 +1,6 @@
-var YAML = require('yamljs');
-var helperMethods = require('./helperMethods');
-var constants = require('./constants');
-var Executer = require('./Executer');
+const commandBuilder = require('./commandBuilder');
+const helperMethods = require('./helperMethods');
+const Executer = require('./Executer');
 
 module.exports = class Helm {
     constructor(config) {        
@@ -13,8 +12,13 @@ module.exports = class Helm {
         this.executer.callByCommand(commandString, callbackHandler(done, false));
     }
     
+    executeCommandByArguments(options, command, done) {
+        commandBuilder.addParentOptions(options, command);
+        this.executer.callByArguments(command, callbackHandler(done, false));
+    }
+
     install(options, done) {
-        var command = ['install'];
+        let command = ['install'];
         if(options.chartName == null){
             throw new Error("Missing required parameter 'chartName'");
         }
@@ -36,12 +40,12 @@ module.exports = class Helm {
             command.push('--set');       
             command.push(helperMethods.flattenValuesToString(options.values));
         }
-
-        this.executer.callByArguments(command, callbackHandler(done, false));        
+        
+        this.executeCommandByArguments(options, command, done);        
     }
 
     upgrade(options, done) {        
-        var command = ['upgrade', options.releaseName];
+        let command = ['upgrade', options.releaseName];
         if (options.chartName == null) {
             throw new Error ("Missing parameter 'chartName'");
         }
@@ -59,70 +63,71 @@ module.exports = class Helm {
         if (options.reuseValues) {
             command.push('--reuse-values');
         }
-    
-        this.executer.callByArguments(command, callbackHandler(done, false)); 
+        
+        this.executeCommandByArguments(options, command, done);        
     }
 
     delete(options, done) {
-        var command = ['delete'];        
+        let command = ['delete'];        
         if(options.releaseName == null){
             throw new Error("Missing parameter 'releaseName'");
         }  
         if(options.shouldPurge){
             command.push('--purge');
         } 
-        command.push(options.releaseName);     
-        this.executer.callByArguments(command, callbackHandler(done, false));         
-    }
+        command.push(options.releaseName); 
 
-    //adding options variable empty for future use
+        this.executeCommandByArguments(options, command, done);                
+    }
+    
     list(options, done){
-        var command = ['list'];
-        if (options.kubeContext) {
-            command.push('--kube-context');
-            command.push(options.kubeContext);
-        }
-        this.executer.callByArguments(command, callbackHandler(done, true), true);           
+        let command = ['list'];
+
+        this.executeCommandByArguments(options, command, done);               
     }
 
     get(options, done){
-        var command = ['get'];
+        let command = ['get'];
         if(options.releaseName == null){
             throw new Error("Missing parameter 'releaseName'");
         }          
         command.push(options.releaseName);
-        this.executer.callByArguments(command, callbackHandler(done, false));           
+
+        this.executeCommandByArguments(options, command, done);                  
     }
 
     history(options, done){
-        var command = ['history'];
+        let command = ['history'];
         if(options.releaseName == null){
             throw new Error("Missing parameter 'releaseName'");
         }          
-        command.push(options.releaseName);        
-        this.executer.callByArguments(command, callbackHandler(done, true), true);           
+        command.push(options.releaseName);     
+        
+        this.executeCommandByArguments(options, command, done);               
     }
 
     test(options, done){
-        var command = ['test'];
+        let command = ['test'];
         if(options.releaseName == null){
             throw new Error("Missing parameter 'releaseName'");
         }          
-        command.push(options.releaseName);        
-        this.executer.callByArguments(command, callbackHandler(done, false));           
+        command.push(options.releaseName);   
+        
+        this.executeCommandByArguments(options, command, done);               
     }
 
     status(options, done){
-        var command = ['status'];
+        let command = ['status'];
         if(options.releaseName == null){
             throw new Error("Missing parameter 'releaseName'");
         }          
-        command.push(options.releaseName);        
-        this.executer.callByArguments(command, callbackHandler(done, true), true);           
+        command.push(options.releaseName);      
+        
+        this.executeCommandByArguments(options, command, done);               
     }
 
     rollback(options, done){
-        var command = ['rollback'];
+        let command = ['rollback'];
         if(options.releaseName == null){
             throw new Error("Missing parameter 'releaseName'");
         }          
@@ -131,9 +136,10 @@ module.exports = class Helm {
         }          
         command.push(options.releaseName);
         command.push(options.revision);        
-        this.executer.callByArguments(command, callbackHandler(done, false));           
+
+        this.executeCommandByArguments(options, command, done);          
     }
-}
+};
 
 function callbackHandler(done, isJsonSupportedCommand) {
     return function (err, data) {
@@ -142,23 +148,7 @@ function callbackHandler(done, isJsonSupportedCommand) {
             done(err, data);
         }
         else {            
-            done(null, isJsonSupportedCommand ? data : parseResponseToJson(data));            
+            done(null, isJsonSupportedCommand ? data : helperMethods.parseResponseToJson(data));            
         }
     };
 }
-
-
-function parseResponseToJson(rawData){   
-    try{
-        var splitedData = rawData.split(constants.HelmResponseDelimiter);
-        var jsonData = splitedData.map(function(responseYml){
-            return YAML.parse(responseYml);        
-        }); 
-        return jsonData;
-    }
-    catch(e){
-        console.log("could not parse helm response with error: " + e.message);
-        //ignore        
-        return rawData;
-    }    
-}         
