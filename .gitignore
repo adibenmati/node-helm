@@ -62,3 +62,4 @@ typings/
 
 app.js
 .vscode
+package-lock.json
