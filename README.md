@@ -33,7 +33,7 @@ https://docs.helm.sh/helm/#helm-list
     let releases = await helm.listAsync(options);  
 ```
 
-### Get release
+### Get a release
 https://docs.helm.sh/helm/#helm-get
 ```
     let options = {
@@ -90,7 +90,7 @@ https://docs.helm.sh/helm/#helm-history
     let history = await helm.historyAsync(options);  
 ```
 
-test release
+### Test a release
 https://docs.helm.sh/helm/#helm-test
 ```    
     let options = {
@@ -100,7 +100,7 @@ https://docs.helm.sh/helm/#helm-test
 ```
 
 
-### Rollback a release to previous revision
+### Rollback a release to a previous revision
 https://docs.helm.sh/helm/#helm-rollback
 ```    
     let options = {
