@@ -116,6 +116,7 @@ https://docs.helm.sh/helm/#helm-status
 ```    
     let options = {
         releaseName = 'service';
+        outputFormat = 'json'; // optional
     }
     let status = await helm.statusAsync(options);  
 ```
