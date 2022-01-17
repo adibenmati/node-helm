@@ -121,6 +121,10 @@ module.exports = class Helm {
         if(options.releaseName == null){
             throw new Error("Missing parameter 'releaseName'");
         }          
+        if (options.outputFormat){
+            command.push('--output')
+            command.push(options.outputFormat)
+        }
         command.push(options.releaseName);      
         
         this.executeCommandByArguments(options, command, done);               
